@@ -40,8 +40,12 @@ object UserRepository {
         return user!!
     }
 
-    // Add users to the database
-    fun addUser(user: User) {
+    /**
+     * Returns the id of the new user
+     * @param user a new user which will be added to the database
+     * @return the id of new user
+     */
+    fun addUser(user: User): String {
         val newUser = getDatabaseRef()!!.child("").push()
 
         user.id = newUser.key.toString()
@@ -50,6 +54,20 @@ object UserRepository {
         newUser.child("totalTime").setValue(0)
         newUser.child("totalDistance").setValue(0f)
         newUser.child("runs").setValue(arrayListOf<String>())
+
+        return user.id
+    }
+
+
+    fun updateUser(user: User) {
+        val updatedUser = getDatabaseRef()!!.child(user.id)
+
+        user.id = updatedUser.key.toString()
+        updatedUser.child("username").setValue(user.username)
+        updatedUser.child("totalScore").setValue(user.totalScore)
+        updatedUser.child("totalTime").setValue(user.totalTime)
+        updatedUser.child("totalDistance").setValue(user.totalDistance)
+        updatedUser.child("runs").setValue(user.runs)
     }
 
     // Get all users from the database

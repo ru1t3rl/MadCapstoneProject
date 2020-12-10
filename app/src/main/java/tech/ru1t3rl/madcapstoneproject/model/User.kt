@@ -2,6 +2,7 @@ package tech.ru1t3rl.madcapstoneproject.model
 
 import com.google.firebase.database.DataSnapshot
 import java.lang.Exception
+import kotlin.properties.Delegates
 
 class User(snapshot: DataSnapshot?) {
     lateinit var id: String
@@ -10,6 +11,7 @@ class User(snapshot: DataSnapshot?) {
     var totalTime = 0
     var totalDistance = 0f
     var runs: List<String>? = null
+    var private: Boolean by Delegates.notNull()
 
     init {
         try {
@@ -21,6 +23,7 @@ class User(snapshot: DataSnapshot?) {
             totalTime = data["totalTime"] as Int
             totalDistance = data["totalDistance"] as Float
             runs = data["runs"] as List<String>?
+            private = data["private"] as Boolean
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -44,9 +44,16 @@
     <string name="settings_theme">Switch Theme</string>
     <string name="settings_invite_friends">Invite Friends</string>
     <string name="settings_about">About the app</string>
+    <string name="profile_private">Private</string>
+    <string name="user_id">user_id</string>
 
     <!-- Menu -->
     <string name="menu_friends">Friends</string>
     <string name="menu_leaderboard">Leaderboard</string>
     <string name="menu_settings">Settings</string>
+
+    <!-- First Experience -->
+    <string name="first_name_hint">Username</string>
+    <string name="first_private_eg">*A private account will not be visible on the leaderboard</string>
+    <string name="first_start">Start</string>
 </resources>
