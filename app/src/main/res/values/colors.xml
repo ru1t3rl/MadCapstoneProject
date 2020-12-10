@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_night">#FF263238</color>
-    <color name="primary_night_dark">#A0111619</color>
-    <color name="primary">#FF263238</color>
-    <color name="primary_dark">#A0111619</color>
-    <color name="accent">#FFC6FF00</color>
-    <color name="accent_dark">#597102</color>
-    <color name="black">#FF1C1C1C</color>
+    <color name="background_night">#FF263238</color>
+    <color name="background_night_dark">#F1111619</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="background_dark">#F3F3F3</color>
+    <color name="background_accent">#FFC6FF00</color>
+    <color name="background_accent_dark">#597102</color>
+    <color name="black">#FF2F2F2F</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

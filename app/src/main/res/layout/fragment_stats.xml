@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="?attr/colorPrimary"
     tools:context=".StatsFragment">
 
 
@@ -32,7 +32,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="50"
                     android:background="@drawable/bg_round_corners"
-                    android:backgroundTint="@color/primary_dark"
+                    android:backgroundTint="?attr/colorPrimaryVariant"
                     android:backgroundTintMode="src_atop"
                     android:orientation="vertical">
 
@@ -44,7 +44,7 @@
                         android:fontFamily="@font/open_sans_extrabold"
                         android:text="@string/stats_distance"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="24sp" />
 
                     <LinearLayout
@@ -70,7 +70,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/open_sans_extrabold"
                             android:text="0"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnPrimary"
                             android:textSize="36sp" />
 
                         <TextView
@@ -80,7 +80,7 @@
                             android:layout_weight="50"
                             android:fontFamily="@font/open_sans_extrabold"
                             android:text="@string/stats_distance_metric"
-                            android:textColor="@color/white" />
+                            android:textColor="?attr/colorOnPrimary" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -90,7 +90,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="50"
                     android:background="@drawable/bg_round_corners"
-                    android:backgroundTint="@color/primary_dark"
+                    android:backgroundTint="?attr/colorPrimaryVariant"
                     android:backgroundTintMode="src_atop"
                     android:orientation="vertical">
 
@@ -102,7 +102,7 @@
                         android:fontFamily="@font/open_sans_extrabold"
                         android:text="@string/stats_speed"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="24sp" />
 
                     <LinearLayout
@@ -128,7 +128,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/open_sans_extrabold"
                             android:text="0"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnPrimary"
                             android:textSize="36sp" />
 
                         <TextView
@@ -138,7 +138,7 @@
                             android:layout_weight="49"
                             android:fontFamily="@font/open_sans_extrabold"
                             android:text="@string/stats_distance_metric"
-                            android:textColor="@color/white" />
+                            android:textColor="?attr/colorOnPrimary" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -153,7 +153,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="50"
                     android:background="@drawable/bg_round_corners"
-                    android:backgroundTint="@color/primary_dark"
+                    android:backgroundTint="?attr/colorPrimaryVariant"
                     android:backgroundTintMode="src_atop"
                     android:orientation="vertical">
 
@@ -165,7 +165,7 @@
                         android:fontFamily="@font/open_sans_extrabold"
                         android:text="@string/stats_calories"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="24sp" />
 
                     <LinearLayout
@@ -191,7 +191,7 @@
                             android:layout_weight="50"
                             android:fontFamily="@font/open_sans_extrabold"
                             android:text="0"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnPrimary"
                             android:textSize="36sp" />
 
                     </LinearLayout>
@@ -203,7 +203,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="50"
                     android:background="@drawable/bg_round_corners"
-                    android:backgroundTint="@color/primary_dark"
+                    android:backgroundTint="?attr/colorPrimaryVariant"
                     android:backgroundTintMode="src_atop"
                     android:orientation="vertical">
 
@@ -215,7 +215,7 @@
                         android:fontFamily="@font/open_sans_extrabold"
                         android:text="@string/stats_score"
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="24sp" />
 
                     <LinearLayout
@@ -241,7 +241,7 @@
                             android:layout_weight="50"
                             android:fontFamily="@font/open_sans_extrabold"
                             android:text="0"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnPrimary"
                             android:textSize="36sp" />
                     </LinearLayout>
                 </LinearLayout>

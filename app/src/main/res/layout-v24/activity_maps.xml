@@ -74,11 +74,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_weight="20"
-                android:countDown="false"
                 android:fontFamily="@font/open_sans_extrabold_italic"
-                android:format="mm:SS"
                 android:textAlignment="center"
-                android:textSize="24sp" />
+                android:textSize="24sp" 
+                android:countDown="false"
+                android:textColor="?attr/colorOnPrimary"
+                />
         </LinearLayout>
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
