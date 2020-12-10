@@ -1,60 +1,88 @@
 package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import tech.ru1t3rl.madcapstoneproject.R
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import tech.ru1t3rl.madcapstoneproject.adapter.UserAdapter
+import tech.ru1t3rl.madcapstoneproject.databinding.FragmentFindFriendsFragmentsBinding
+import tech.ru1t3rl.madcapstoneproject.model.User
+import tech.ru1t3rl.madcapstoneproject.repository.UserRepository
+import java.util.*
+import kotlin.collections.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FindFriendsFragments.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FindFriendsFragments : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentFindFriendsFragmentsBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private var users = ArrayList<User>()
+    private var searchItems = ArrayList<User>()
+    private var userIds = ArrayList<String>()
+
+    private var userAdapter = UserAdapter(searchItems) {
+        portal: User -> loadBattleFragment(portal)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_find_friends_fragments, container, false)
+        binding = FragmentFindFriendsFragmentsBinding.inflate(layoutInflater)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FindFriendsFragments.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FindFriendsFragments().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initRv()
+
+        binding.etSearchTerm.doAfterTextChanged {
+            search(it.toString())
+            Log.i("tag","Searched")
+        }
+    }
+
+    private fun initRv() {
+        binding.rvFriends.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.VERTICAL,
+            false
+        )
+        binding.rvFriends.adapter = userAdapter
+
+        addAllUser()
+        userAdapter.notifyDataSetChanged()
+    }
+
+    private fun search(searchTerm: String) {
+        searchItems.clear()
+        for(user in users) {
+            if(user.username.toLowerCase(Locale.ROOT).contains(searchTerm.toLowerCase(Locale.ROOT))) {
+                searchItems.add(user)
             }
+        }
+
+        userAdapter.notifyDataSetChanged()
+    }
+
+    private fun loadBattleFragment(user: User) {
+        // TODO Load Next Fragment and pass trough the user
+    }
+
+    private fun addAllUser() {
+        users.addAll(UserRepository.getAllUsers()!!)
+        Log.i("Tag", users.toString())
+
+        for(user in users){
+            if(user.private || user.id == ARG_USER_ID) {
+                users.remove(user)
+            } else
+                userIds.add(user.id)
+        }
+
+        searchItems.addAll(users)
     }
 }

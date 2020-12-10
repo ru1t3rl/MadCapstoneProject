@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import tech.ru1t3rl.madcapstoneproject.R
-import tech.ru1t3rl.madcapstoneproject.databinding.ActivityMapsBinding
+import tech.ru1t3rl.madcapstoneproject.databinding.ActivityMapBinding
 import java.io.IOException
 import java.lang.NullPointerException
 
@@ -31,7 +31,7 @@ import java.lang.NullPointerException
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    private lateinit var binding: ActivityMapsBinding
+    private lateinit var binding: ActivityMapBinding
 
     private lateinit var locationListener: LocationListener
     private lateinit var locationManager: LocationManager
@@ -55,7 +55,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Toast.LENGTH_LONG
             ).show()
 
-        binding = ActivityMapsBinding.inflate(layoutInflater)
+        binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

@@ -14,4 +14,9 @@
         <!-- Customize your theme here. -->
         <item name="colorControlActivated">@color/background_accent</item>
     </style>
+
+    <style name="Theme.MadCapstoneProject.circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

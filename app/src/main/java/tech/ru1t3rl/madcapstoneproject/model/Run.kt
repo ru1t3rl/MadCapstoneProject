@@ -13,7 +13,7 @@ class Run (snapshot: DataSnapshot) {
     var averageSpeed = 0f
 
     init {
-        val data: HashMap<String, Any> = snapshot!!.value as HashMap<String, Any>
+        val data: HashMap<String, Any> = snapshot.value as HashMap<String, Any>
 
         id = snapshot.key ?: ""
         routePoints = data["routePoints"] as List<LatLng>

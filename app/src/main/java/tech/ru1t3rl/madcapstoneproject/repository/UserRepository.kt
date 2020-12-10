@@ -54,6 +54,7 @@ object UserRepository {
         newUser.child("totalTime").setValue(0)
         newUser.child("totalDistance").setValue(0f)
         newUser.child("runs").setValue(arrayListOf<String>())
+        newUser.child("private").setValue(user.private)
 
         return user.id
     }
