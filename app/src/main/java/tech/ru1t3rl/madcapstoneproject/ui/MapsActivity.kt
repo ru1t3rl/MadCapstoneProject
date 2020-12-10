@@ -1,4 +1,4 @@
-package tech.ru1t3rl.madcapstoneproject
+package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.Manifest
 import android.app.Service
@@ -22,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.ActivityMapsBinding
 import java.io.IOException
 import java.lang.NullPointerException

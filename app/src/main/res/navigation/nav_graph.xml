@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/leaderboardFragment"
-        android:name="tech.ru1t3rl.madcapstoneproject.LeaderboardFragment"
+        android:name="tech.ru1t3rl.madcapstoneproject.ui.LeaderboardFragment"
         android:label="fragment_leaderboard"
         tools:layout="@layout/fragment_leaderboard" />
     <fragment
         android:id="@+id/findFriendsFragments"
-        android:name="tech.ru1t3rl.madcapstoneproject.FindFriendsFragments"
+        android:name="tech.ru1t3rl.madcapstoneproject.ui.FindFriendsFragments"
         android:label="fragment_find_friends_fragments"
         tools:layout="@layout/fragment_find_friends_fragments" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="tech.ru1t3rl.madcapstoneproject.SettingsFragment"
+        android:name="tech.ru1t3rl.madcapstoneproject.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/statsFragment"
-        android:name="tech.ru1t3rl.madcapstoneproject.StatsFragment"
+        android:name="tech.ru1t3rl.madcapstoneproject.ui.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
 </navigation>

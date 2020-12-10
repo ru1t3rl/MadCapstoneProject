@@ -1,10 +1,11 @@
-package tech.ru1t3rl.madcapstoneproject
+package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.ActivityPopupBinding
 
 class PopupActivity: AppCompatActivity() {
@@ -28,10 +29,10 @@ class PopupActivity: AppCompatActivity() {
                 R.id.miFreinds -> {
                     navController.navigate(R.id.findFriendsFragments)
                 }
-                R.id.miLeaderboard-> {
+                R.id.miLeaderboard -> {
                     navController.navigate(R.id.leaderboardFragment)
                 }
-                R.id.miSettings-> {
+                R.id.miSettings -> {
                     navController.navigate(R.id.settingsFragment)
                 }
             }

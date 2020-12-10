@@ -7,6 +7,20 @@
     <!-- Main -->
     <string name="warning_enable_location">Please check if your location is enabled!</string>
 
+    <!-- Database Entries -->
+    <string name="db_user_username">username</string>
+    <string name="db_user_total_score">totalScore</string>
+    <string name="db_user_total_time">totalTime</string>
+    <string name="db_user_total_distance">totalDistance</string>
+    <string name="db_user_runs">runs</string>
+
+    <string name="db_run_route_points">routePoints</string>
+    <string name="db_run_distance">distance</string>
+    <string name="db_run_time">time</string>
+    <string name="db_run_calories">calories</string>
+    <string name="db_run_score">score</string>
+    <string name="db_run_average_speed">aSpeed</string>
+
     <!-- Stats -->
     <string name="stats_distance">Distance</string>
     <string name="stats_speed">Speed</string>
