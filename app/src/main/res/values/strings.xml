@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">MadCapstoneProject</string>
+    <string name="title_activity_maps">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Stats -->
+    <string name="stats_distance">Distance</string>
+    <string name="stats_speed">Speed</string>
+    <string name="stats_calories">Cals.</string>
+    <string name="stats_score">Score</string>
+    <string name="stats_distance_metric">km</string>
+    <string name="stats_speed_metric">km/h</string>
+
+    <!-- Friends -->
+    <string name="friends_find">Find Friends</string>
+    <string name="friends_vs">vs</string>
+    <string name="friends_hours">%1$d Hours</string>
+
+    <!-- Leaderboard -->
+    <string name="leaderboard_points">pts</string>
+    <string name="leaderboard_leaderboard">Leaderboard</string>
+
+    <!-- Profile/Settings -->
+    <string name="profile_edit">Edit Profile</string>
+    <string name="settings_notifications">Push Notifications</string>
+    <string name="settings_theme">Switch Theme</string>
+    <string name="settings_invite_friends">Invite Friends</string>
+    <string name="settings_about">About the app</string>
+
+    <!-- Menu -->
+    <string name="menu_friends">Friends</string>
+    <string name="menu_leaderboard">Leaderboard</string>
+    <string name="menu_settings">Settings</string>
 </resources>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "924028591910",
+    "firebase_url": "https://madcapstoneproject.firebaseio.com",
+    "project_id": "madcapstoneproject",
+    "storage_bucket": "madcapstoneproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924028591910:android:9c2494a7b27dcb8b0e2be7",
+        "android_client_info": {
+          "package_name": "tech.ru1t3rl.madcapstoneproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924028591910-f7gk7ii92ajcljtn8683t97b59m5vjcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOqGrVNpTsAj7TRhGerwoUrDLSHItRBZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924028591910-f7gk7ii92ajcljtn8683t97b59m5vjcg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

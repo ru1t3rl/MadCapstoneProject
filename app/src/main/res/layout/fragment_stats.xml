@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context=".StatsFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/bg_round_corners"
+                    android:backgroundTint="@color/primary_dark"
+                    android:backgroundTintMode="src_atop"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvDistance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/open_sans_extrabold"
+                        android:text="@string/stats_distance"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10dp">
+
+                        <ImageView
+                            android:id="@+id/ivDistance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="30"
+                            android:cropToPadding="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/awesome_route" />
+
+                        <TextView
+                            android:id="@+id/tvDistanceValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/open_sans_extrabold"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="36sp" />
+
+                        <TextView
+                            android:id="@+id/tvDistanceMetric"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/open_sans_extrabold"
+                            android:text="@string/stats_distance_metric"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/bg_round_corners"
+                    android:backgroundTint="@color/primary_dark"
+                    android:backgroundTintMode="src_atop"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvSpeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/open_sans_extrabold"
+                        android:text="@string/stats_speed"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10dp">
+
+                        <ImageView
+                            android:id="@+id/ivSpeed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="30"
+                            android:cropToPadding="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ionic_ios_speedometer" />
+
+                        <TextView
+                            android:id="@+id/tvSpeedValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/open_sans_extrabold"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="36sp" />
+
+                        <TextView
+                            android:id="@+id/tvSpeedMetric"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="49"
+                            android:fontFamily="@font/open_sans_extrabold"
+                            android:text="@string/stats_distance_metric"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/bg_round_corners"
+                    android:backgroundTint="@color/primary_dark"
+                    android:backgroundTintMode="src_atop"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvCalories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/open_sans_extrabold"
+                        android:text="@string/stats_calories"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10dp">
+
+                        <ImageView
+                            android:id="@+id/ivCalories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="30"
+                            android:cropToPadding="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ionic_ios_flame" />
+
+                        <TextView
+                            android:id="@+id/tvCaloriesValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/open_sans_extrabold"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="36sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/bg_round_corners"
+                    android:backgroundTint="@color/primary_dark"
+                    android:backgroundTintMode="src_atop"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvScore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/open_sans_extrabold"
+                        android:text="@string/stats_score"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10dp">
+
+                        <ImageView
+                            android:id="@+id/ivScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="30"
+                            android:cropToPadding="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ionic_ios_trophy" />
+
+                        <TextView
+                            android:id="@+id/tvScoreValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:fontFamily="@font/open_sans_extrabold"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="36sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"/>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
