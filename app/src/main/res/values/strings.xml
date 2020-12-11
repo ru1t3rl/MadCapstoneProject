@@ -51,9 +51,18 @@
     <string name="menu_friends">Friends</string>
     <string name="menu_leaderboard">Leaderboard</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_stats">Stats</string>
 
     <!-- First Experience -->
     <string name="first_name_hint">Username</string>
     <string name="first_private_eg">*A private account will not be visible on the leaderboard</string>
     <string name="first_start">Start</string>
+
+    <!-- Battle -->
+    <string name="battle_time">%s Hours</string>
+    <string name="battle_distance">%s</string>
+    <string name="battle_speed">%s</string>
+    <string name="battle_points">%s pts</string>
+    <string name="battle_failed_get_user">Failed to get user stats!</string>
+    <string name="battle_failed_get_friend">Failed to get friends stats!</string>
 </resources>

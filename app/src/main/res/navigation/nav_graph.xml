@@ -25,4 +25,9 @@
         android:name="tech.ru1t3rl.madcapstoneproject.ui.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/battleFragment"
+        android:name="tech.ru1t3rl.madcapstoneproject.ui.BattleFragment"
+        android:label="BattleFragment"
+        tools:layout="@layout/fragment_battle"/>
 </navigation>
