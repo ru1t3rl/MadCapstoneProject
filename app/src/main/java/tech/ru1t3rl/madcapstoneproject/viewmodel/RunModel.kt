@@ -1,21 +1,56 @@
-package tech.ru1t3rl.madcapstoneproject.repository
+package tech.ru1t3rl.madcapstoneproject.viewmodel
 
 import android.util.Log
 import com.google.firebase.database.*
+import tech.ru1t3rl.madcapstoneproject.dao.RunDao
 import tech.ru1t3rl.madcapstoneproject.model.Run
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
-class RunRepository {
+object RunModel: RunDao, Observable() {
     private var mValueDataListener: ValueEventListener? = null
-    private var mRunList: ArrayList<Run>? = ArrayList()
+    private var mRunList: List<Run> = emptyList()
 
     private fun getDatabaseRef(): DatabaseReference? {
         return FirebaseDatabase.getInstance().reference.child("Run")
     }
 
 
+    init {
+        if (mValueDataListener != null) {
+            getDatabaseRef()?.removeEventListener(mValueDataListener!!)
+        }
+        mValueDataListener = null
+
+        mValueDataListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    val data: ArrayList<Run> = ArrayList()
+                    for (runData: DataSnapshot in snapshot.children) {
+                        try {
+                            data.add(Run(runData))
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    mRunList = data
+
+                    setChanged()
+                    notifyObservers()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Log.i("RunModel", p0.message)
+            }
+        }
+    }
+
     // Find the user in the snapshot based on it's id
-    fun getRun(id: String) : Run {
+    override fun getRun(id: String) : Run {
         if (mValueDataListener != null) {
             getDatabaseRef()?.removeEventListener(mValueDataListener!!)
         }
@@ -40,7 +75,7 @@ class RunRepository {
     }
 
     // Add users to the database
-    fun addRun(run: Run) {
+    override fun addRun(run: Run) {
         val newRun = getDatabaseRef()!!.child("").push()
 
         newRun.child("routePoints").setValue(run.routePoints)
@@ -52,35 +87,7 @@ class RunRepository {
     }
 
     // Get all users from the database
-    fun getAllUsers(): ArrayList<Run>? {
-        if (mValueDataListener != null) {
-            getDatabaseRef()?.removeEventListener(mValueDataListener!!)
-        }
-        mValueDataListener = null
-
-        mValueDataListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                try {
-                    val data: ArrayList<Run> = ArrayList()
-                    for (runData: DataSnapshot in snapshot.children) {
-                        try {
-                            data.add(Run(runData))
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                    mRunList = data
-
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-                Log.i("RunModel", p0.message)
-            }
-        }
-
+    override fun getAllRuns(): List<Run> {
         return mRunList
     }
 }

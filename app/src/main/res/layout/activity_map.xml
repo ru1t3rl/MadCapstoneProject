@@ -78,7 +78,7 @@
                 android:layout_weight="20"
                 android:countDown="false"
                 android:fontFamily="@font/open_sans_extrabold_italic"
-                android:format="mm:SS"
+                android:format="(1):(23)"
                 android:textAlignment="center"
                 android:textSize="24sp" />
         </LinearLayout>

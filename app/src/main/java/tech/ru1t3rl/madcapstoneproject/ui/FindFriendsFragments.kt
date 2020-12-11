@@ -1,11 +1,9 @@
 package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,16 +11,16 @@ import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.adapter.UserAdapter
 import tech.ru1t3rl.madcapstoneproject.databinding.FragmentFindFriendsFragmentsBinding
 import tech.ru1t3rl.madcapstoneproject.model.User
-import tech.ru1t3rl.madcapstoneproject.repository.UserRepository
+import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 import java.util.*
 import kotlin.collections.ArrayList
 
 const val ARG_FRIEND_ID = "ARG_FRIEND_ID"
 
-class FindFriendsFragments : Fragment() {
+class FindFriendsFragments : Fragment(), Observer{
     private lateinit var binding: FragmentFindFriendsFragmentsBinding
 
-    private var users = ArrayList<User>()
+    private var users = UserModel.getAllUsers() as ArrayList
     private var searchItems = ArrayList<User>()
 
     private var userAdapter = UserAdapter(searchItems) {
@@ -45,6 +43,8 @@ class FindFriendsFragments : Fragment() {
         binding.etSearchTerm.doAfterTextChanged {
             search(it.toString())
         }
+
+        UserModel.addObserver(this)
     }
 
     private fun initRv() {
@@ -56,7 +56,6 @@ class FindFriendsFragments : Fragment() {
         binding.rvFriends.adapter = userAdapter
 
         addAllUser()
-        userAdapter.notifyDataSetChanged()
     }
 
     private fun search(searchTerm: String) {
@@ -79,14 +78,23 @@ class FindFriendsFragments : Fragment() {
 
     private fun addAllUser() {
         users.clear()
-        users.addAll(UserRepository.getAllUsers())
+        users.addAll(UserModel.getAllUsers() )
 
-        for(i in (0 until users.size).reversed()){
-            if(users[i].private || users[i].id == ARG_USER_ID) {
-                users.remove(users[i])
+        for(user in users.reversed()){
+            if(user.private || user.id == ARG_USER_ID) {
+                users.remove(user)
             }
         }
 
+        searchItems.clear()
         searchItems.addAll(users)
+        userAdapter.notifyDataSetChanged()
+    }
+
+    override fun update(o: Observable?, arg: Any?) {
+        this.users.clear()
+
+        addAllUser()
+        search(binding.etSearchTerm.text.toString())
     }
 }

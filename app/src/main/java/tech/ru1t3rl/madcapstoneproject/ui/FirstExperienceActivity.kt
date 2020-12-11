@@ -8,7 +8,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import tech.ru1t3rl.madcapstoneproject.databinding.ActivityFirstExperienceBinding
-import tech.ru1t3rl.madcapstoneproject.repository.UserRepository
+import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 
 var ARG_USER_ID = "ARG_USER_ID"
 
@@ -44,7 +44,7 @@ class FirstExperienceActivity : AppCompatActivity() {
         user.private = binding.sPrivate.isChecked
         user.username = binding.etUsername.text.toString()
 
-        val id = UserRepository.addUser(user)
+        val id = UserModel.addUser(user)
         ARG_USER_ID = id
 
         val mEditor: SharedPreferences.Editor = mPrefs.edit()

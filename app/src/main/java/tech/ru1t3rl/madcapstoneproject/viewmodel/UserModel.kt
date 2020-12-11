@@ -1,14 +1,17 @@
-package tech.ru1t3rl.madcapstoneproject.repository
+package tech.ru1t3rl.madcapstoneproject.viewmodel
 
 import android.util.Log
 import com.google.firebase.database.*
+import tech.ru1t3rl.madcapstoneproject.dao.UserDao
 import tech.ru1t3rl.madcapstoneproject.model.User
 import java.lang.Exception
+import java.lang.NullPointerException
+import java.util.*
 import kotlin.collections.ArrayList
 
-object UserRepository {
+object UserModel : Observable(), UserDao {
     private var mValueDataListener: ValueEventListener? = null
-    private var mUserList: ArrayList<User> = ArrayList()
+    private var mUserList: List<User> = emptyList()
 
     private fun getDatabaseRef(): DatabaseReference? {
         return FirebaseDatabase.getInstance().reference.child("User")
@@ -19,15 +22,18 @@ object UserRepository {
         getDatabaseRef()?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
-                    val data: ArrayList<User> = ArrayList()
+                    val users = ArrayList<User>()
                     for (userData: DataSnapshot in snapshot.children) {
                         try {
-                            data.add(User(userData))
+                            users.add(User(userData))
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     }
-                    mUserList = data
+                    mUserList =  users
+
+                    setChanged()
+                    notifyObservers()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -40,15 +46,18 @@ object UserRepository {
     }
 
     // Find the user in the snapshot based on it's id
-    fun getUser(id: String) : User? {
+    override fun getUser(id: String) : User? {
         if(mUserList.isNullOrEmpty())
             getAllUsers()
 
-        for(user in mUserList){
-            if(user.id == id)
-                return user
+        try {
+            for (user in mUserList) {
+                if (user.id == id)
+                    return user
+            }
+        } catch (e: NullPointerException) {
+            Log.e("UserRepository", "User with id $id not found!")
         }
-
         return User(null)
     }
 
@@ -57,7 +66,7 @@ object UserRepository {
      * @param user a new user which will be added to the database
      * @return the id of new user
      */
-    fun addUser(user: User): String {
+    override fun addUser(user: User): String {
         val newUser = getDatabaseRef()!!.child("").push()
 
         user.id = newUser.key.toString()
@@ -73,7 +82,7 @@ object UserRepository {
     }
 
 
-    fun updateUser(user: User) {
+    override fun updateUser(user: User) {
         val updatedUser = getDatabaseRef()!!.child(user.id)
 
         user.id = updatedUser.key.toString()
@@ -87,35 +96,7 @@ object UserRepository {
     }
 
     // Get all users from the database
-    fun getAllUsers(): ArrayList<User> {
-        if (mValueDataListener != null) {
-            getDatabaseRef()?.removeEventListener(mValueDataListener!!)
-        }
-        mValueDataListener = null
-        
-        mValueDataListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                try {
-                    val data: ArrayList<User> = ArrayList()
-                    for (userData: DataSnapshot in snapshot.children) {
-                        try {
-                            data.add(User(userData))
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                    mUserList = data
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-                Log.i("UserModel", p0.message)
-            }
-        }
-        getDatabaseRef()?.addValueEventListener(mValueDataListener as ValueEventListener)
-
+    override fun getAllUsers(): List<User> {
         return mUserList
     }
 }

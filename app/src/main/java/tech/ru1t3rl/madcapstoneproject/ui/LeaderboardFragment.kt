@@ -1,60 +1,97 @@
 package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.os.Bundle
+import android.os.UserManager
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tech.ru1t3rl.madcapstoneproject.R
+import tech.ru1t3rl.madcapstoneproject.adapter.LeaderboardEntryAdapter
+import tech.ru1t3rl.madcapstoneproject.databinding.FragmentLeaderboardBinding
+import tech.ru1t3rl.madcapstoneproject.model.User
+import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
+import java.util.*
+import kotlin.collections.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class LeaderboardFragment : Fragment(), Observer {
+    private lateinit var binding: FragmentLeaderboardBinding
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LeaderboardFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class LeaderboardFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var users = UserModel.getAllUsers() as ArrayList
+    private var entryAdapter = LeaderboardEntryAdapter(users)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaderboard, container, false)
+        binding = FragmentLeaderboardBinding.inflate(layoutInflater)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LeaderboardFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LeaderboardFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initRv()
+
+        ioScope.launch {
+            sortUsers()
+        }
+
+        entryAdapter.notifyDataSetChanged()
+    }
+
+    override fun update(o: Observable?, arg: Any?) {
+        users.clear()
+        users.addAll(UserModel.getAllUsers())
+
+        ioScope.launch {
+            sortUsers()
+        }
+
+        entryAdapter.notifyDataSetChanged()
+    }
+
+    private fun initRv() {
+        binding.rvLeaderboard.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.VERTICAL,
+            false
+        )
+        binding.rvLeaderboard.adapter = entryAdapter
+    }
+
+    private fun sortUsers() {
+        val sorted = ArrayList<User>()
+
+        if (users.isNullOrEmpty()) {
+            users = ArrayList()
+            users.addAll(UserModel.getAllUsers())
+        }
+
+        for (user in users) {
+            if (!user.private || user.id == ARG_USER_ID) {
+                sorted.add(user)
+
+                for (i in 1 until sorted.size) {
+                    if (sorted[i].totalScore < user.totalScore) {
+                        sorted[i + 1] = sorted[i]
+                    } else {
+                        sorted[i] = user
+                        break
+                    }
                 }
             }
+        }
+
+        users = sorted
     }
 }

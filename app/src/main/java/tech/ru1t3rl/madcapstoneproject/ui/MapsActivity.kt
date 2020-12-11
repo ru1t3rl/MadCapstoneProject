@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.ActivityMapBinding
-import tech.ru1t3rl.madcapstoneproject.repository.UserRepository
+import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 import java.io.IOException
 import java.lang.NullPointerException
 
@@ -53,7 +53,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
 
         // Get All Users for finding friends
-        UserRepository.getAllUsers()
+        UserModel.getAllUsers()
 
         // Check if location service is enabled
         if (!isLocationEnabled())

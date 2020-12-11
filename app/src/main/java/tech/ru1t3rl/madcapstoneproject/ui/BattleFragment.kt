@@ -10,7 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.model.User
 import tech.ru1t3rl.madcapstoneproject.databinding.FragmentBattleBinding
-import tech.ru1t3rl.madcapstoneproject.repository.UserRepository
+import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 import java.lang.NullPointerException
 
 class BattleFragment : Fragment(){
@@ -30,8 +30,8 @@ class BattleFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         try {
-            setFriend(UserRepository.getUser(arguments?.getString(ARG_FRIEND_ID)!!)!!)
-            setUser(UserRepository.getUser(ARG_USER_ID)!!)
+            setFriend(UserModel.getUser(arguments?.getString(ARG_FRIEND_ID)!!)!!)
+            setUser(UserModel.getUser(ARG_USER_ID)!!)
         } catch (e: NullPointerException) {
             Snackbar.make(requireView(), getString(R.string.battle_failed_get_user), Snackbar.LENGTH_SHORT).show()
             findNavController().popBackStack()
