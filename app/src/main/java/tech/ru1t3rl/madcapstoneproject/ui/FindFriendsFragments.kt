@@ -7,6 +7,10 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.adapter.UserAdapter
 import tech.ru1t3rl.madcapstoneproject.databinding.FragmentFindFriendsFragmentsBinding
@@ -38,7 +42,15 @@ class FindFriendsFragments : Fragment(), Observer{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRv()
+        CoroutineScope(Dispatchers.Main).launch {
+            initRv()
+
+            withContext(Dispatchers.IO) {
+                addAllUser()
+            }
+
+            userAdapter.notifyDataSetChanged()
+        }
 
         binding.etSearchTerm.doAfterTextChanged {
             search(it.toString())
@@ -54,8 +66,6 @@ class FindFriendsFragments : Fragment(), Observer{
             false
         )
         binding.rvFriends.adapter = userAdapter
-
-        addAllUser()
     }
 
     private fun search(searchTerm: String) {
@@ -88,13 +98,18 @@ class FindFriendsFragments : Fragment(), Observer{
 
         searchItems.clear()
         searchItems.addAll(users)
-        userAdapter.notifyDataSetChanged()
     }
 
     override fun update(o: Observable?, arg: Any?) {
         this.users.clear()
 
-        addAllUser()
-        search(binding.etSearchTerm.text.toString())
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                addAllUser()
+            }
+
+            userAdapter.notifyDataSetChanged()
+            search(binding.etSearchTerm.text.toString())
+        }
     }
 }

@@ -85,7 +85,6 @@ object UserModel : Observable(), UserDao {
     override fun updateUser(user: User) {
         val updatedUser = getDatabaseRef()!!.child(user.id)
 
-        user.id = updatedUser.key.toString()
         updatedUser.child("username").setValue(user.username)
         updatedUser.child("totalScore").setValue(user.totalScore)
         updatedUser.child("totalTime").setValue(user.totalTime)

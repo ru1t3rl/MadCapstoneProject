@@ -1,8 +1,6 @@
 package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.os.Bundle
-import android.os.UserManager
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +11,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.adapter.LeaderboardEntryAdapter
 import tech.ru1t3rl.madcapstoneproject.databinding.FragmentLeaderboardBinding
 import tech.ru1t3rl.madcapstoneproject.model.User
@@ -25,8 +22,8 @@ class LeaderboardFragment : Fragment(), Observer {
     private lateinit var binding: FragmentLeaderboardBinding
 
     private var users = ArrayList<User>(UserModel.getAllUsers())
-    private var leaderbord = ArrayList<User>()
-    private var entryAdapter = LeaderboardEntryAdapter(leaderbord)
+    private var leaderboard = ArrayList<User>()
+    private var entryAdapter = LeaderboardEntryAdapter(leaderboard)
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
@@ -35,6 +32,7 @@ class LeaderboardFragment : Fragment(), Observer {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLeaderboardBinding.inflate(layoutInflater)
+        UserModel.addObserver(this)
         return binding.root
     }
 
@@ -74,7 +72,7 @@ class LeaderboardFragment : Fragment(), Observer {
     }
 
     private fun sortUsers() {
-        leaderbord.clear()
+        leaderboard.clear()
 
         if (users.isNullOrEmpty()) {
             users = ArrayList(UserModel.getAllUsers())
@@ -82,17 +80,14 @@ class LeaderboardFragment : Fragment(), Observer {
 
         for (user in users.reversed()) {
             if (!user.private || user.id == ARG_USER_ID) {
-                leaderbord.add(user)
+                leaderboard.add(user)
 
-                Log.i("leader", "Checking ${user.username} Score: ${user.totalScore}")
-                for (i in (0 until leaderbord.size - 1)) {
-                    if (user.totalScore > leaderbord[i].totalScore && i + 1 < leaderbord.size) {
-                        leaderbord[i + 1] = leaderbord[i]
-                        leaderbord[i] = user
+                for (i in (0 until leaderboard.size - 1)) {
+                    if (user.totalScore > leaderboard[i].totalScore && i + 1 < leaderboard.size) {
+                        leaderboard[i + 1] = leaderboard[i]
+                        leaderboard[i] = user
                     }
                 }
-
-                Log.i("leaderboard", leaderbord.toString())
             } else
                 users.remove(user)
         }
