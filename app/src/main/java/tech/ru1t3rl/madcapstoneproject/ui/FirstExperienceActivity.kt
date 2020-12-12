@@ -24,7 +24,10 @@ class FirstExperienceActivity : AppCompatActivity() {
         // Check if the user already has an account
         if (!mPrefs.getString(getString(R.string.user_id), "").isNullOrEmpty()){
             ARG_USER_ID = mPrefs.getString(getString(R.string.user_id), "")!!
-            launchMainActivity()
+
+            if(UserModel.getUser(ARG_USER_ID) != null) {
+                launchMainActivity()
+            }
         }
 
         binding = ActivityFirstExperienceBinding.inflate(layoutInflater)

@@ -17,8 +17,8 @@
         android:title="@string/menu_leaderboard"
         android:titleCondensed="@string/menu_leaderboard" />
     <item
-        android:id="@+id/miSettings"
-        android:icon="@drawable/ionic_ios_settings"
-        android:title="@string/menu_settings"
+        android:id="@+id/miProfile"
+        android:icon="@drawable/profile_icon"
+        android:title="@string/menu_profile"
         android:titleCondensed="@string/menu_settings" />
 </menu>

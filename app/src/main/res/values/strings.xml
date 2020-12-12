@@ -2,6 +2,9 @@
     <string name="app_name">MadCapstoneProject</string>
     <string name="title_activity_maps">Map</string>
 
+    <!-- Map Style IDs -->
+    <string name="map_id">23d2bbb74e611da2</string>
+
     <!-- Main -->
     <string name="warning_enable_location">Please check if your location is enabled!</string>
 
@@ -48,7 +51,7 @@
     <!-- Menu -->
     <string name="menu_friends">Friends</string>
     <string name="menu_leaderboard">Leaderboard</string>
-    <string name="menu_settings">Settings</string>
+    <string name="menu_profile">Profile</string>
     <string name="menu_stats">Stats</string>
 
     <!-- First Experience -->

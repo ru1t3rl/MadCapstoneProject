@@ -10,6 +10,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -149,7 +150,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 R.id.miLeaderboard -> {
                     navController.navigate(R.id.leaderboardFragment)
                 }
-                R.id.miSettings -> {
+                R.id.miProfile -> {
                     navController.navigate(R.id.settingsFragment)
                 }
             }
@@ -169,7 +170,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Uncomment for dynamically changing map color based on android theme
+        // Dynamically changing map color based on android theme
         val currentNightMode =
             applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         when (currentNightMode) {
@@ -214,6 +215,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     currentLocation = LatLng(latitude, longitude)
 
+                    Log.i("tag", "Set Start position: "+setStartLocation)
+
                     if (!setStartLocation) {
                         try {
                             mMap.moveCamera(
@@ -223,7 +226,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 )
                             )
                         } catch (e: IOException) {
-                            e.printStackTrace()
+                                e.printStackTrace()
                         }
 
                         setStartLocation = true

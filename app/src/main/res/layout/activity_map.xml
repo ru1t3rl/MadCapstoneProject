@@ -9,9 +9,13 @@
 
     <fragment
         android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context=".ui.MapsActivity" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -118,11 +122,12 @@
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="?attr/colorPrimaryVariant"
+            android:background="@drawable/bg_rounded_top"
+            app:backgroundTint="?attr/colorPrimaryVariant"
             android:elevation="10dp"
             app:itemIconSize="35dp"
-            app:itemIconTint="?attr/colorOnPrimary"
-            app:itemTextColor="?attr/colorOnPrimary"
+            app:itemIconTint="?attr/colorAccent"
+            app:itemTextColor="?attr/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
