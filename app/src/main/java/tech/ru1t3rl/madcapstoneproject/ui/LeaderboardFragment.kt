@@ -24,8 +24,9 @@ import kotlin.collections.ArrayList
 class LeaderboardFragment : Fragment(), Observer {
     private lateinit var binding: FragmentLeaderboardBinding
 
-    private var users = UserModel.getAllUsers() as ArrayList
-    private var entryAdapter = LeaderboardEntryAdapter(users)
+    private var users = ArrayList<User>(UserModel.getAllUsers())
+    private var leaderbord = ArrayList<User>()
+    private var entryAdapter = LeaderboardEntryAdapter(leaderbord)
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
@@ -40,24 +41,27 @@ class LeaderboardFragment : Fragment(), Observer {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRv()
+        CoroutineScope(Dispatchers.Main).launch {
+            initRv()
 
-        ioScope.launch {
-            sortUsers()
+            withContext(Dispatchers.IO) {
+                sortUsers()
+            }
+
+            entryAdapter.notifyDataSetChanged()
         }
-
-        entryAdapter.notifyDataSetChanged()
     }
 
     override fun update(o: Observable?, arg: Any?) {
         users.clear()
-        users.addAll(UserModel.getAllUsers())
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                sortUsers()
+            }
 
-        ioScope.launch {
-            sortUsers()
+            initRv()
+            entryAdapter.notifyDataSetChanged()
         }
-
-        entryAdapter.notifyDataSetChanged()
     }
 
     private fun initRv() {
@@ -70,28 +74,27 @@ class LeaderboardFragment : Fragment(), Observer {
     }
 
     private fun sortUsers() {
-        val sorted = ArrayList<User>()
+        leaderbord.clear()
 
         if (users.isNullOrEmpty()) {
-            users = ArrayList()
-            users.addAll(UserModel.getAllUsers())
+            users = ArrayList(UserModel.getAllUsers())
         }
 
-        for (user in users) {
+        for (user in users.reversed()) {
             if (!user.private || user.id == ARG_USER_ID) {
-                sorted.add(user)
+                leaderbord.add(user)
 
-                for (i in 1 until sorted.size) {
-                    if (sorted[i].totalScore < user.totalScore) {
-                        sorted[i + 1] = sorted[i]
-                    } else {
-                        sorted[i] = user
-                        break
+                Log.i("leader", "Checking ${user.username} Score: ${user.totalScore}")
+                for (i in (0 until leaderbord.size - 1)) {
+                    if (user.totalScore > leaderbord[i].totalScore && i + 1 < leaderbord.size) {
+                        leaderbord[i + 1] = leaderbord[i]
+                        leaderbord[i] = user
                     }
                 }
-            }
-        }
 
-        users = sorted
+                Log.i("leaderboard", leaderbord.toString())
+            } else
+                users.remove(user)
+        }
     }
 }

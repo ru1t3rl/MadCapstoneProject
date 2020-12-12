@@ -20,7 +20,7 @@ const val ARG_FRIEND_ID = "ARG_FRIEND_ID"
 class FindFriendsFragments : Fragment(), Observer{
     private lateinit var binding: FragmentFindFriendsFragmentsBinding
 
-    private var users = UserModel.getAllUsers() as ArrayList
+    private var users = ArrayList<User>(UserModel.getAllUsers())
     private var searchItems = ArrayList<User>()
 
     private var userAdapter = UserAdapter(searchItems) {
