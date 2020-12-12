@@ -20,5 +20,5 @@
         android:id="@+id/miProfile"
         android:icon="@drawable/profile_icon"
         android:title="@string/menu_profile"
-        android:titleCondensed="@string/menu_settings" />
+        android:titleCondensed="@string/menu_profile" />
 </menu>

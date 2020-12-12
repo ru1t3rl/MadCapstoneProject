@@ -81,7 +81,7 @@ object RunModel: RunDao, Observable() {
         newRun.child("routePoints").setValue(run.routePoints)
         newRun.child("distance").setValue(run.distance)
         newRun.child("time").setValue(run.time)
-        newRun.child("calories").setValue(run.time)
+        newRun.child("calories").setValue(run.calories)
         newRun.child("score").setValue(run.score)
         newRun.child("aSpeed").setValue(run.averageSpeed)
     }

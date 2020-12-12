@@ -9,8 +9,8 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
 import android.os.SystemClock
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,10 +28,15 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.ActivityMapBinding
+import tech.ru1t3rl.madcapstoneproject.model.Run
+import tech.ru1t3rl.madcapstoneproject.viewmodel.RunModel
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 import java.io.IOException
-import java.lang.NullPointerException
+import kotlin.math.acos
+import kotlin.math.cos
+import kotlin.math.sin
 
+const val ARG_ACTIVE_RUN = "ARG_ACTIVE_RUN"
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -43,12 +48,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val REQUEST_LOCATION_PERMISSION = 1
 
     // Location Tracking Variables
-    private var routePoints = ArrayList<LatLng>()
     private val minMovement = 0.00000002f
     private var tracking = false
     private var setStartLocation = false
     private var currentLocation: LatLng? = null
+
+    val startPoint = Location("startLocation")
+    val endPoint = Location("endLocation")
     private var distance = 0f
+
+    var activeRun: Run? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +97,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+        handler = Handler()
+
         // Setup the start button
         binding.fabStart.setOnClickListener {
             if (!isLocationEnabled()) {
@@ -102,14 +113,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             tracking = !tracking
 
             if (tracking) {
-                routePoints.clear()
-
-                try {
-                    routePoints.add(currentLocation!!)
-                } catch (ex: NullPointerException) {
-
-                }
-
                 binding.fabStart.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
@@ -117,9 +120,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     )
                 )
 
+                // Reset the stopwatch
+                millisecondTime = 0L
+                startTime = 0L
+                timeBuff = 0L
+                updateTime = 0L
+                seconds = 0
+                minutes = 0
+                milliSeconds = 0
 
-                binding.timer.base = SystemClock.elapsedRealtime()
-                binding.timer.start()
+                // Start the stopwatch
+                startTime = SystemClock.uptimeMillis()
+                handler!!.postDelayed(runnable, 0)
+
+                activeRun = Run(null)
+
+                // Add start location to the route
+                try {
+                    activeRun!!.routePoints.add(currentLocation!!)
+                } catch (ex: NullPointerException) {
+
+                }
             } else {
                 binding.fabStart.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -128,8 +149,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     )
                 )
 
-                binding.timer.stop()
-                // TODO: Upload data to database
+                // Stop the timer
+                timeBuff += millisecondTime
+                handler!!.removeCallbacks(runnable)
+
+                // V = S / T (totalTime/1000/60/60) to convert the milliseconds to hours
+                activeRun!!.averageSpeed = (activeRun!!.distance.toFloat() / (activeRun!!.time/1000/60/60)).toString()
+
+                activeRun!!.score = (activeRun!!.distance.toFloat() * (activeRun!!.time/1000/60/60) * activeRun!!.averageSpeed.toFloat()).toInt()
+
+                RunModel.addRun(activeRun!!)
+                activeRun = null
             }
         }
 
@@ -142,6 +172,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         navView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.miStats -> {
+                    var args = Bundle()
+                    args.putSerializable("ARG_ACTIVE_RUN", activeRun)
                     navController.navigate(R.id.statsFragment)
                 }
                 R.id.miFriends -> {
@@ -215,8 +247,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     currentLocation = LatLng(latitude, longitude)
 
-                    Log.i("tag", "Set Start position: "+setStartLocation)
-
                     if (!setStartLocation) {
                         try {
                             mMap.moveCamera(
@@ -242,28 +272,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             e.printStackTrace()
                         }
 
-                        if (routePoints.size > 0) {
-                            val x = routePoints[routePoints.size - 1].latitude - latitude
-                            val y = routePoints[routePoints.size - 1].longitude - longitude
+                        if (activeRun!!.routePoints.size > 0) {
+                            val x = activeRun!!.routePoints[activeRun!!.routePoints.size - 1].latitude - latitude
+                            val y = activeRun!!.routePoints[activeRun!!.routePoints.size - 1].longitude - longitude
                             val distance = x * x + y * y
 
                             if (distance >= minMovement)
-                                routePoints.add(LatLng(latitude, longitude))
+                                activeRun!!.routePoints.add(LatLng(latitude, longitude))
                         }
 
-                        if (routePoints.size > 1) {
+                        if (activeRun!!.routePoints.size > 1) {
                             mMap
                                 .addPolyline(
                                     PolylineOptions()
                                         .add(
-                                            routePoints[routePoints.size - 1],
-                                            routePoints[routePoints.size - 2]
+                                            activeRun!!.routePoints[activeRun!!.routePoints.size - 1],
+                                            activeRun!!.routePoints[activeRun!!.routePoints.size - 2]
                                         ).width(5f).color(getColor(R.color.background_accent))
                                         .geodesic(true)
                                 )
 
-                            val lat = routePoints[routePoints.size - 2].latitude - latitude
-                            val lon = routePoints[routePoints.size - 2].longitude - longitude
+                            startPoint.latitude = activeRun!!.routePoints[activeRun!!.routePoints.size - 2].latitude
+                            startPoint.longitude = activeRun!!.routePoints[activeRun!!.routePoints.size - 2].longitude
+
+                            endPoint.latitude = latitude
+                            startPoint.longitude = longitude
+
+                            // DistanceTo / 1000 to change it to km instead of m
+                            distance += startPoint.distanceTo(endPoint)/1000
+                            activeRun!!.distance = distance.toString()
                         }
                     }
                 }
@@ -297,5 +334,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         grantResults: IntArray
     ) {
         setupMap()
+    }
+
+
+    // Stopwatch Code
+    var handler: Handler? = null
+    var millisecondTime: Long = 0
+    var startTime: Long = 0
+    var timeBuff: Long = 0
+    var updateTime: Long = 0L
+    var milliSeconds = 0
+    var seconds = 0
+    var minutes = 0
+    var hours = 0
+    var runnable: Runnable = object : Runnable {
+        override fun run() {
+            millisecondTime = SystemClock.uptimeMillis() - startTime
+            updateTime = timeBuff + millisecondTime
+            seconds = (updateTime / 1000).toInt()
+            minutes = seconds / 60
+            hours = minutes /60
+            milliSeconds = (updateTime % 1000).toInt()
+            seconds %= 60
+            binding.timer.text = ("${hours}:${minutes}:${seconds}.${milliSeconds}")
+            activeRun!!.time = updateTime.toInt()
+            handler!!.postDelayed(this, 0)
+        }
     }
 }
