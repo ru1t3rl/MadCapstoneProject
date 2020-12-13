@@ -10,7 +10,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 object UserModel : Observable(), UserDao {
-    private var mValueDataListener: ValueEventListener? = null
     private var mUserList: List<User> = emptyList()
 
     private fun getDatabaseRef(): DatabaseReference? {
@@ -56,7 +55,7 @@ object UserModel : Observable(), UserDao {
                     return user
             }
         } catch (e: NullPointerException) {
-            Log.e("UserRepository", "User with id $id not found!")
+            Log.e("UserModel", "User with id $id not found!")
         }
         return User(null)
     }

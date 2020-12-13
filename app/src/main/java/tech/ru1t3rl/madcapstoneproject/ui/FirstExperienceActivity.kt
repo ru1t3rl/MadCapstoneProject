@@ -3,8 +3,6 @@ package tech.ru1t3rl.madcapstoneproject.ui
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import tech.ru1t3rl.madcapstoneproject.model.User
-import tech.ru1t3rl.madcapstoneproject.R
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.ImageDecoder.createSource
@@ -12,13 +10,13 @@ import android.graphics.ImageDecoder.decodeBitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.ActivityFirstExperienceBinding
+import tech.ru1t3rl.madcapstoneproject.model.User
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 import java.io.IOException
 import java.util.*
@@ -37,15 +35,14 @@ class FirstExperienceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mPrefs= application.getSharedPreferences(getString(R.string.user_id), Context.MODE_PRIVATE)
+        mPrefs = application.getSharedPreferences(getString(R.string.user_id), Context.MODE_PRIVATE)
 
         // Check if the user already has an account
         if (!mPrefs.getString(getString(R.string.user_id), "").isNullOrEmpty()){
             ARG_USER_ID = mPrefs.getString(getString(R.string.user_id), "")!!
-
-            if(UserModel.getUser(ARG_USER_ID) != null) {
-                launchMainActivity()
-            }
+                if (UserModel.getUser(ARG_USER_ID) != null) {
+                    launchMainActivity()
+                }
         }
 
         binding = ActivityFirstExperienceBinding.inflate(layoutInflater)

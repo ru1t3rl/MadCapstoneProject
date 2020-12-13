@@ -5,11 +5,11 @@ import com.google.firebase.database.*
 import tech.ru1t3rl.madcapstoneproject.dao.RunDao
 import tech.ru1t3rl.madcapstoneproject.model.Run
 import java.lang.Exception
+import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.ArrayList
 
 object RunModel: RunDao, Observable() {
-    private var mValueDataListener: ValueEventListener? = null
     private var mRunList: List<Run> = emptyList()
 
     private fun getDatabaseRef(): DatabaseReference? {
@@ -18,12 +18,7 @@ object RunModel: RunDao, Observable() {
 
 
     init {
-        if (mValueDataListener != null) {
-            getDatabaseRef()?.removeEventListener(mValueDataListener!!)
-        }
-        mValueDataListener = null
-
-        mValueDataListener = object : ValueEventListener {
+         getDatabaseRef()?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     val data: ArrayList<Run> = ArrayList()
@@ -46,32 +41,24 @@ object RunModel: RunDao, Observable() {
             override fun onCancelled(p0: DatabaseError) {
                 Log.i("RunModel", p0.message)
             }
-        }
+        })
     }
 
     // Find the user in the snapshot based on it's id
-    override fun getRun(id: String) : Run {
-        if (mValueDataListener != null) {
-            getDatabaseRef()?.removeEventListener(mValueDataListener!!)
-        }
-        mValueDataListener = null
+    override fun getRun(id: String) : Run? {
+        if(mRunList.isNullOrEmpty())
+            getAllRuns()
 
-        var run: Run? = null
-        mValueDataListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                try {
-                    run = Run(snapshot.child(id))
-                } catch (e: Exception) {
-                    e.stackTrace
-                }
+        try {
+            for (run in mRunList) {
+                if (run.id == id)
+                    return run
             }
-
-            override fun onCancelled(p0: DatabaseError) {
-                Log.i("RunModel", p0.message)
-            }
+        } catch (e: NullPointerException) {
+            Log.e("RunModel", "Run with id $id not found!")
         }
 
-        return run!!
+        return null
     }
 
     /**
@@ -87,6 +74,7 @@ object RunModel: RunDao, Observable() {
         newRun.child("calories").setValue(run.calories)
         newRun.child("score").setValue(run.score)
         newRun.child("aSpeed").setValue(run.averageSpeed)
+        newRun.child("date").setValue(run.date)
 
         return newRun.key ?: ""
     }

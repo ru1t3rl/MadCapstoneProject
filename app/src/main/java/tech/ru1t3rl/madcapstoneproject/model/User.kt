@@ -18,21 +18,23 @@ class User(snapshot: DataSnapshot?) {
 
     init {
         try {
-            val data: HashMap<String, Any> = snapshot!!.value as HashMap<String, Any>
+            if(snapshot != null) {
+                val data: HashMap<String, Any> = snapshot.value as HashMap<String, Any>
 
-            id = snapshot.key ?: ""
-            username = data["username"] as String
-            totalScore = data["totalScore"] as Long
-            totalTime = data["totalTime"] as Long
-            totalDistance = data["totalDistance"] as String
-            averageSpeed = data["averageSpeed"] as String
-            runs = data["runs"] as ArrayList<String>?
-            private = data["private"] as Boolean
+                id = snapshot.key ?: ""
+                username = data["username"] as String
+                totalScore = data["totalScore"] as Long
+                totalTime = data["totalTime"] as Long
+                totalDistance = data["totalDistance"] as String
+                averageSpeed = data["averageSpeed"] as String
+                runs = data["runs"] as ArrayList<String>?
+                private = data["private"] as Boolean
 
-            try {
-                profileImagePath = data["profileImage"] as String
-            } catch (e: NullPointerException) {
-                profileImagePath = ""
+                profileImagePath = try {
+                    data["profileImage"] as String
+                } catch (e: NullPointerException) {
+                    ""
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()

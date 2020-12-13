@@ -1,15 +1,13 @@
 package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.FragmentStatsBinding
 import tech.ru1t3rl.madcapstoneproject.model.Run
-import java.lang.NumberFormatException
 
 class StatsFragment : Fragment() {
     private lateinit var binding: FragmentStatsBinding
@@ -37,11 +35,9 @@ class StatsFragment : Fragment() {
             val localScore =
                 (distance * (run.time/1000f/60/60) * (distance / (run.time / 1000f/ 60 / 60)) * 10000).toInt()
 
-            binding.tvDistanceValue.text = run.distance
-            binding.tvSpeedValue.text = java.lang.String.format("%.2f", distance / (run.time / 1000f/ 60 / 60))
+            binding.tvDistanceValue.text = getString(R.string.battle_distance, distance)
+            binding.tvSpeedValue.text = getString(R.string.battle_speed, distance / (run.time / 1000f/ 60 / 60))
             binding.tvScoreValue.text = localScore.toString()
-        } else  {
-            Log.i("Stats", "Run is null")
         }
     }
 

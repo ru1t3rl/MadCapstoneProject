@@ -1,8 +1,6 @@
 package tech.ru1t3rl.madcapstoneproject.adapter
 
 import android.graphics.BitmapFactory
-import android.provider.Settings.Global.getString
-import tech.ru1t3rl.madcapstoneproject.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +10,7 @@ import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.ItemUserBinding
 import tech.ru1t3rl.madcapstoneproject.model.User
 

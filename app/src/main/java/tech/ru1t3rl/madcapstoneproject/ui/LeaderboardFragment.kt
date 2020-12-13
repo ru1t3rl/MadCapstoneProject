@@ -25,8 +25,6 @@ class LeaderboardFragment : Fragment(), Observer {
     private var leaderboard = ArrayList<User>()
     private var entryAdapter = LeaderboardEntryAdapter(leaderboard)
 
-    private val ioScope = CoroutineScope(Dispatchers.IO)
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,7 +80,8 @@ class LeaderboardFragment : Fragment(), Observer {
             if (!user.private || user.id == ARG_USER_ID) {
                 leaderboard.add(user)
 
-                for (i in (0 until leaderboard.size - 1)) {
+                // -1 since it doesn't have to check it self
+                for (i in (0 until leaderboard.size - 1).reversed()) {
                     if (user.totalScore > leaderboard[i].totalScore && i + 1 < leaderboard.size) {
                         leaderboard[i + 1] = leaderboard[i]
                         leaderboard[i] = user

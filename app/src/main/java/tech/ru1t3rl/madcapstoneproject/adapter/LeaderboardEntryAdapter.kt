@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.ItemLeaderboardEntryBinding
-import tech.ru1t3rl.madcapstoneproject.databinding.ItemUserBinding
 import tech.ru1t3rl.madcapstoneproject.model.User
 
 class LeaderboardEntryAdapter(

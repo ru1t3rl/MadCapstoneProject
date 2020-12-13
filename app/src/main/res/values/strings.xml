@@ -1,27 +1,13 @@
 <resources>
     <string name="app_name">MadCapstoneProject</string>
-    <string name="title_activity_maps">Map</string>
 
     <!-- Map Style IDs -->
-    <string name="map_id">23d2bbb74e611da2</string>
 
     <!-- Main -->
     <string name="warning_enable_location">Please check if your location is enabled!</string>
     <string name="profile_image_folder">profile_pictures</string>
 
     <!-- Database Entries -->
-    <string name="db_user_username">username</string>
-    <string name="db_user_total_score">totalScore</string>
-    <string name="db_user_total_time">totalTime</string>
-    <string name="db_user_total_distance">totalDistance</string>
-    <string name="db_user_runs">runs</string>
-
-    <string name="db_run_route_points">routePoints</string>
-    <string name="db_run_distance">distance</string>
-    <string name="db_run_time">time</string>
-    <string name="db_run_calories">calories</string>
-    <string name="db_run_score">score</string>
-    <string name="db_run_average_speed">aSpeed</string>
 
     <!-- Stats -->
     <string name="stats_distance">Distance</string>
@@ -29,27 +15,19 @@
     <string name="stats_calories">Cals.</string>
     <string name="stats_score">Score</string>
     <string name="stats_distance_metric">km</string>
-    <string name="stats_speed_metric">km/h</string>
 
     <!-- Friends -->
-    <string name="friends_find">Find Friends</string>
-    <string name="friends_vs">vs</string>
-    <string name="friends_hours">%1$d Hours</string>
 
     <!-- Leaderboard -->
     <string name="leaderboard_points">pts</string>
     <string name="leaderboard_leaderboard">Leaderboard</string>
 
     <!-- Profile/Settings -->
-    <string name="profile_edit">Edit Profile</string>
-    <string name="settings_notifications">Push Notifications</string>
-    <string name="settings_theme">Switch Theme</string>
     <string name="settings_invite_friends">Invite Friends</string>
     <string name="settings_about">About the app</string>
     <string name="profile_private">Private</string>
     <string name="user_id">user_id</string>
     <string name="profile_history">History</string>
-    <string name="profile_no_history">There aren\'t any runs!</string>
 
     <!-- Menu -->
     <string name="menu_friends">Friends</string>
@@ -67,11 +45,17 @@
     <string name="first_select_image">Select A Profile Picture</string>
     <string name="fist_take_a_while">This shouldn\'t take a while.</string>
 
+    <!-- History -->
+    <string name="history_date">Date:</string>
+    <string name="history_distance">Distance:</string>
+    <string name="history_speed">Speed:</string>
+    <string name="history_score">Score</string>
+    <string name="history_no_history">There aren\'t any runs to show!</string>
+
     <!-- Battle -->
     <string name="battle_time">%s</string>
     <string name="battle_distance">%.2f km</string>
     <string name="battle_speed">%.2f km/h</string>
     <string name="battle_points">%o pts</string>
     <string name="battle_failed_get_user">Failed to get user stats!</string>
-    <string name="battle_failed_get_friend">Failed to get friends stats!</string>
 </resources>

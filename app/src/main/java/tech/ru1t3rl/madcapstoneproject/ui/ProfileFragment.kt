@@ -2,22 +2,32 @@ package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tech.ru1t3rl.madcapstoneproject.R
+import tech.ru1t3rl.madcapstoneproject.adapter.HistoryAdapter
 import tech.ru1t3rl.madcapstoneproject.databinding.FragmentProfileBinding
+import tech.ru1t3rl.madcapstoneproject.model.Run
 import tech.ru1t3rl.madcapstoneproject.model.User
+import tech.ru1t3rl.madcapstoneproject.viewmodel.RunModel
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), Observer {
     private lateinit var binding:  FragmentProfileBinding
+
+    private var runs = ArrayList<Run>()
+    private val historyAdapter = HistoryAdapter(runs)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +57,23 @@ class ProfileFragment : Fragment() {
         }
 
         loadImage(user.profileImagePath)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            initRv()
+
+            loadRuns(user)
+        }
+
+        UserModel.addObserver(this)
+    }
+
+    private fun initRv() {
+        binding.rvHistory.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.VERTICAL,
+            false
+        )
+        binding.rvHistory.adapter = historyAdapter
     }
 
     private fun loadImage(profileImage: String) {
@@ -67,5 +94,33 @@ class ProfileFragment : Fragment() {
             }.addOnFailureListener {
                 // Handle any errors
             }
+    }
+
+
+
+    private fun loadRuns(user: User) {
+
+            for (runId in user.runs!!) {
+                try {
+                    runs.add(RunModel.getRun(runId)!!)
+                } catch (e: NullPointerException) {
+
+                }
+            }
+
+            historyAdapter.notifyDataSetChanged()
+
+        if(runs.size > 0)
+            binding.tvNoRuns.visibility = View.GONE
+        else
+            binding.rvHistory.visibility = View.GONE
+
+    }
+
+    override fun update(o: Observable?, arg: Any?) {
+        val user = UserModel.getUser(ARG_USER_ID) ?: return
+
+        runs.clear()
+        loadRuns(user)
     }
 }

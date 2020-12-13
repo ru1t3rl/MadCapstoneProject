@@ -1,6 +1,7 @@
 package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.pm.PackageManager
@@ -11,7 +12,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.SystemClock
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -33,9 +33,9 @@ import tech.ru1t3rl.madcapstoneproject.model.Run
 import tech.ru1t3rl.madcapstoneproject.viewmodel.RunModel
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 import java.io.IOException
-import kotlin.math.acos
-import kotlin.math.cos
-import kotlin.math.sin
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val ARG_ACTIVE_RUN = "ARG_ACTIVE_RUN"
 
@@ -60,11 +60,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     var activeRun: Run? = null
 
+    @SuppressLint("SimpleDateFormat")
+    private fun getDateTime(): String {
+        return SimpleDateFormat("yyyy.MM.dd 'at' HH:mm z").format(Date())
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Get All Users for finding friends
         UserModel.getAllUsers()
+        RunModel.getAllRuns()
 
         // Check if location service is enabled
         if (!isLocationEnabled())
@@ -93,7 +99,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 binding.btnOpen.rotation = 180f
 
                 val args = Bundle()
-                args.putSerializable("ARG_ACTIVE_RUN", activeRun)
+                args.putSerializable(ARG_ACTIVE_RUN, activeRun)
                 findNavController(R.id.nav_host_fragment).navigate(R.id.statsFragment, args)
             } else {
                 binding.fabStart.visibility = View.VISIBLE
@@ -118,6 +124,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             tracking = !tracking
 
             if (tracking) {
+                mMap.clear()
+
                 binding.fabStart.setImageDrawable(
                     ContextCompat.getDrawable(
                         applicationContext,
@@ -165,7 +173,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 else
                     activeRun!!.averageSpeed = "0.0"
 
-                activeRun!!.score = (distance * (activeRun!!.time/1000f/60/60) * activeRun!!.averageSpeed.toFloat() * 10000).toInt()
+                activeRun!!.score = (distance * (activeRun!!.time/1000f/60/60) * activeRun!!.averageSpeed.toFloat() * 10000).toLong()
+
+                activeRun!!.date = getDateTime()
 
                 activeRun!!.id =RunModel.addRun(activeRun!!)
 
@@ -199,7 +209,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             when (item.itemId) {
                 R.id.miStats -> {
                     val args = Bundle()
-                    args.putSerializable("ARG_ACTIVE_RUN", activeRun)
+                    args.putSerializable(ARG_ACTIVE_RUN, activeRun)
                     navController.navigate(R.id.statsFragment, args)
                 }
                 R.id.miFriends -> {
@@ -218,7 +228,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // Check if location service is enabled
     private fun isLocationEnabled(): Boolean {
-        var locationManager: LocationManager =
+        val locationManager: LocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
@@ -290,9 +300,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     // Detect Movement and save route
                     if (tracking) {
-                        // Remove all Polylines from possible previous runs
-                        mMap.clear()
-
                         // Move the camera to the currentLocation
                         try {
                             val latLng = LatLng(latitude, longitude)
@@ -376,7 +383,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     var seconds = 0
     var minutes = 0
     var hours = 0
-    var runnable: Runnable = object : Runnable {
+    private var runnable: Runnable = object : Runnable {
         override fun run() {
             millisecondTime = SystemClock.uptimeMillis() - startTime
             updateTime = timeBuff + millisecondTime
@@ -386,7 +393,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             milliSeconds = (updateTime % 1000).toInt()
             seconds %= 60
             binding.timer.text = ("${hours}:${minutes}:${seconds}.${milliSeconds}")
-            activeRun!!.time = updateTime.toInt()
+            activeRun!!.time = updateTime
             handler!!.postDelayed(this, 0)
         }
     }

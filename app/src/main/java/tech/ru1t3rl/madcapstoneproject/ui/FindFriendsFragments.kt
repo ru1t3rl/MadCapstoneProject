@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.adapter.UserAdapter
-import tech.ru1t3rl.madcapstoneproject.databinding.FragmentFindFriendsFragmentsBinding
+import tech.ru1t3rl.madcapstoneproject.databinding.FragmentFindFriendsBinding
 import tech.ru1t3rl.madcapstoneproject.model.User
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 import java.util.*
@@ -22,7 +22,7 @@ import kotlin.collections.ArrayList
 const val ARG_FRIEND_ID = "ARG_FRIEND_ID"
 
 class FindFriendsFragments : Fragment(), Observer{
-    private lateinit var binding: FragmentFindFriendsFragmentsBinding
+    private lateinit var binding: FragmentFindFriendsBinding
 
     private var users = ArrayList<User>(UserModel.getAllUsers())
     private var searchItems = ArrayList<User>()
@@ -35,7 +35,7 @@ class FindFriendsFragments : Fragment(), Observer{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFindFriendsFragmentsBinding.inflate(layoutInflater)
+        binding = FragmentFindFriendsBinding.inflate(layoutInflater)
         return binding.root
     }
 
