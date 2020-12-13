@@ -47,11 +47,14 @@ class BattleFragment : Fragment(){
 
         // Set time format h:m:s.ms
         val time = friend.totalTime.toInt()
-        binding.tvFTime.text = "${(time/1000/60/60)}:${time/1000/60}:${time/1000%60}.${time%1000}"
+        binding.tvFTime.text = getString(R.string.battle_time,
+            "${(time/1000/60/60)}:${time/1000/60}:${time/1000%60}.${time%1000}")
 
-        binding.tvFDistance.text = String.format("%.3f", friend.totalDistance.toFloat())
-        binding.tvFSpeed.text = String.format("%.3f", friend.averageSpeed.toFloat())
-        binding.tvFScore.text = friend.totalScore.toString()
+        binding.tvFDistance.text = getString(R.string.battle_distance, friend.totalDistance.toFloat())
+        binding.tvFSpeed.text = getString(R.string.battle_speed, friend.averageSpeed.toFloat())
+        binding.tvFScore.text = getString(R.string.battle_points, friend.totalScore)
+
+        // load profile pictures
         loadImage(friend.profileImagePath, UserType.Friend)
     }
 
@@ -60,11 +63,14 @@ class BattleFragment : Fragment(){
 
         // Set time format h:m:s.ms
         val time = user.totalTime.toInt()
-        binding.tvUTime.text = "${(time/1000/60/60)}:${time/1000/60}:${time/1000%60}.${time%1000}"
+        binding.tvUTime.text = getString(R.string.battle_time,
+            "${(time/1000/60/60)}:${time/1000/60}:${time/1000%60}.${time%1000}")
 
-        binding.tvUDistance.text = String.format("%.3f", user.totalDistance.toFloat())
-        binding.tvUSpeed.text = String.format("%.3f", user.averageSpeed.toFloat())
-        binding.tvUScore.text = user.totalScore.toString()
+        binding.tvUDistance.text = getString(R.string.battle_distance, user.totalDistance.toFloat())
+        binding.tvUSpeed.text = getString(R.string.battle_speed, user.averageSpeed.toFloat())
+        binding.tvUScore.text = getString(R.string.battle_points, user.totalScore)
+
+        // load profile pictures
         loadImage(user.profileImagePath, UserType.User)
     }
 

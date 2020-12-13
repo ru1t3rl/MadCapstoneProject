@@ -48,6 +48,8 @@
     <string name="settings_about">About the app</string>
     <string name="profile_private">Private</string>
     <string name="user_id">user_id</string>
+    <string name="profile_history">History</string>
+    <string name="profile_no_history">There aren\'t any runs!</string>
 
     <!-- Menu -->
     <string name="menu_friends">Friends</string>
@@ -66,10 +68,10 @@
     <string name="fist_take_a_while">This shouldn\'t take a while.</string>
 
     <!-- Battle -->
-    <string name="battle_time">%s Hours</string>
-    <string name="battle_distance">%s</string>
-    <string name="battle_speed">%s</string>
-    <string name="battle_points">%s pts</string>
+    <string name="battle_time">%s</string>
+    <string name="battle_distance">%.2f km</string>
+    <string name="battle_speed">%.2f km/h</string>
+    <string name="battle_points">%o pts</string>
     <string name="battle_failed_get_user">Failed to get user stats!</string>
     <string name="battle_failed_get_friend">Failed to get friends stats!</string>
 </resources>

@@ -159,7 +159,8 @@
                     android:background="@drawable/bg_round_corners"
                     android:backgroundTint="?attr/colorPrimaryVariant"
                     android:backgroundTintMode="src_atop"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tvCalories"
