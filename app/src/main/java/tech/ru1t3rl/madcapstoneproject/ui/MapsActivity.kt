@@ -290,6 +290,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     // Detect Movement and save route
                     if (tracking) {
+                        // Remove all Polylines from possible previous runs
+                        mMap.clear()
+
                         // Move the camera to the currentLocation
                         try {
                             val latLng = LatLng(latitude, longitude)
