@@ -21,6 +21,7 @@
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:background="?attr/colorPrimaryVariant"
+            android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/Theme.MadCapstoneProject.circleImageView"
             tools:srcCompat="@tools:sample/avatars" />
 

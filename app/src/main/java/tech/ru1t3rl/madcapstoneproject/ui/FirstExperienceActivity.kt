@@ -15,8 +15,8 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import tech.ru1t3rl.madcapstoneproject.databinding.ActivityFirstExperienceBinding
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
@@ -51,6 +51,7 @@ class FirstExperienceActivity : AppCompatActivity() {
         binding = ActivityFirstExperienceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Linking click listener to image view, to select a profile picture
         binding.ivLogo.setOnClickListener {
             chooseImage()
         }
@@ -125,6 +126,7 @@ class FirstExperienceActivity : AppCompatActivity() {
 
             filePath = data.data
             try {
+                // api check since the non deprecated method is not supported on android 28 or lower
                 val bitmap = if (android.os.Build.VERSION.SDK_INT >= 29)
                     decodeBitmap(createSource(applicationContext.contentResolver, filePath!!))
                 else

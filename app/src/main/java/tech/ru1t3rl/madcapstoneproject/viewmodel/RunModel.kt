@@ -74,8 +74,11 @@ object RunModel: RunDao, Observable() {
         return run!!
     }
 
-    // Add users to the database
-    override fun addRun(run: Run) {
+    /**
+     * Add users to the database
+     * @return Returns the id of the newly added run
+     */
+    override fun addRun(run: Run) : String {
         val newRun = getDatabaseRef()!!.child("").push()
 
         newRun.child("routePoints").setValue(run.routePoints)
@@ -84,6 +87,8 @@ object RunModel: RunDao, Observable() {
         newRun.child("calories").setValue(run.calories)
         newRun.child("score").setValue(run.score)
         newRun.child("aSpeed").setValue(run.averageSpeed)
+
+        return newRun.key ?: ""
     }
 
     // Get all users from the database

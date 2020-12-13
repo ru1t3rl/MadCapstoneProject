@@ -13,11 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.FragmentProfileBinding
+import tech.ru1t3rl.madcapstoneproject.model.User
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 
 class ProfileFragment : Fragment() {
     private lateinit var binding:  FragmentProfileBinding
-    val user = UserModel.getUser(ARG_USER_ID)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,13 +30,14 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val user = UserModel.getUser(ARG_USER_ID)
         binding.swPrivate.isChecked = user!!.private
 
-        setup()
+        setup(user)
     }
 
-    private fun setup() {
-        binding.tvName.text = user!!.username
+    private fun setup(user: User) {
+        binding.tvName.text = user.username
         binding.swPrivate.setOnCheckedChangeListener { _, isChecked ->
             user.private = isChecked
 

@@ -60,12 +60,12 @@ class FindFriendsFragments : Fragment(), Observer{
     }
 
     private fun initRv() {
+        binding.rvFriends.adapter = userAdapter
         binding.rvFriends.layoutManager = LinearLayoutManager(
             context,
             RecyclerView.VERTICAL,
             false
         )
-        binding.rvFriends.adapter = userAdapter
     }
 
     private fun search(searchTerm: String) {

@@ -11,6 +11,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -48,7 +49,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val REQUEST_LOCATION_PERMISSION = 1
 
     // Location Tracking Variables
-    private val minMovement = 0.00000002f
+    private val minMovement = 0.000000002f
     private var tracking = false
     private var setStartLocation = false
     private var currentLocation: LatLng? = null
@@ -90,6 +91,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 binding.fabStart.visibility = View.GONE
                 binding.popup.visibility = View.VISIBLE
                 binding.btnOpen.rotation = 180f
+
+                val args = Bundle()
+                args.putSerializable("ARG_ACTIVE_RUN", activeRun)
+                findNavController(R.id.nav_host_fragment).navigate(R.id.statsFragment, args)
             } else {
                 binding.fabStart.visibility = View.VISIBLE
                 binding.popup.visibility = View.GONE
@@ -153,13 +158,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 timeBuff += millisecondTime
                 handler!!.removeCallbacks(runnable)
 
+
                 // V = S / T (totalTime/1000/60/60) to convert the milliseconds to hours
-                activeRun!!.averageSpeed = (activeRun!!.distance.toFloat() / (activeRun!!.time/1000/60/60)).toString()
+                if(distance != 0f)
+                    activeRun!!.averageSpeed = (distance / (activeRun!!.time/1000f/60/60)).toString()
+                else
+                    activeRun!!.averageSpeed = "0.0"
 
-                activeRun!!.score = (activeRun!!.distance.toFloat() * (activeRun!!.time/1000/60/60) * activeRun!!.averageSpeed.toFloat()).toInt()
+                activeRun!!.score = (distance * (activeRun!!.time/1000f/60/60) * activeRun!!.averageSpeed.toFloat() * 10000).toInt()
 
-                RunModel.addRun(activeRun!!)
-                activeRun = null
+                activeRun!!.id =RunModel.addRun(activeRun!!)
+
+                val user = UserModel.getUser(ARG_USER_ID)
+                if(user != null) {
+                    user.totalScore += activeRun!!.score
+                    user.totalDistance = (user.totalDistance.toFloat() + distance).toString()
+                    user.totalTime += activeRun!!.time
+
+                    if(activeRun!!.averageSpeed.toFloat() > user.averageSpeed.toFloat() || user.averageSpeed.toFloat() == 0f) {
+                        user.averageSpeed = activeRun!!.averageSpeed
+                    }
+
+                    if(user.runs == null)
+                        user.runs = ArrayList()
+
+                    user.runs?.add(activeRun!!.id)
+
+                    UserModel.updateUser(user)
+                }
             }
         }
 
@@ -172,9 +198,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         navView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.miStats -> {
-                    var args = Bundle()
+                    val args = Bundle()
                     args.putSerializable("ARG_ACTIVE_RUN", activeRun)
-                    navController.navigate(R.id.statsFragment)
+                    navController.navigate(R.id.statsFragment, args)
                 }
                 R.id.miFriends -> {
                     navController.navigate(R.id.findFriendsFragments)
@@ -298,9 +324,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             endPoint.latitude = latitude
                             startPoint.longitude = longitude
 
-                            // DistanceTo / 1000 to change it to km instead of m
-                            distance += startPoint.distanceTo(endPoint)/1000
-                            activeRun!!.distance = distance.toString()
+                            // DistanceTo to km
+                            distance += (startPoint.distanceTo(endPoint)/1000f/100000f)
+                            activeRun!!.distance = java.lang.String.format("%.3f", distance)
                         }
                     }
                 }

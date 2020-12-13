@@ -11,10 +11,10 @@ class User(snapshot: DataSnapshot?) {
     var totalScore: Long = 0
     var totalTime: Long = 0
     var totalDistance = "0.0"
-    var runs: List<String>? = null
+    var runs: ArrayList<String>? = null
     var private: Boolean by Delegates.notNull()
     var profileImagePath: String = ""
-    var averageSpeed: String = ""
+    var averageSpeed: String = "0.0"
 
     init {
         try {
@@ -26,7 +26,7 @@ class User(snapshot: DataSnapshot?) {
             totalTime = data["totalTime"] as Long
             totalDistance = data["totalDistance"] as String
             averageSpeed = data["averageSpeed"] as String
-            runs = data["runs"] as List<String>?
+            runs = data["runs"] as ArrayList<String>?
             private = data["private"] as Boolean
 
             try {

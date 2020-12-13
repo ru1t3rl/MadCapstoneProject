@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import tech.ru1t3rl.madcapstoneproject.R
@@ -43,18 +44,26 @@ class BattleFragment : Fragment(){
 
     private fun setFriend(friend: User) {
         binding.tvFriendName.text = friend.username
-        binding.tvFTime.text = friend.totalTime.toString()
-        binding.tvFDistance.text = friend.totalDistance
-        binding.tvFSpeed.text = friend.averageSpeed
+
+        // Set time format h:m:s.ms
+        val time = friend.totalTime.toInt()
+        binding.tvFTime.text = "${(time/1000/60/60)}:${time/1000/60}:${time/1000}.${time%1000}"
+
+        binding.tvFDistance.text = String.format("%.3f", friend.totalDistance.toFloat())
+        binding.tvFSpeed.text = String.format("%.3f", friend.averageSpeed.toFloat())
         binding.tvFScore.text = friend.totalScore.toString()
         loadImage(friend.profileImagePath, UserType.Friend)
     }
 
     private fun setUser(user: User) {
         binding.tvUName.text = user.username
-        binding.tvUTime.text = user.totalTime.toString()
-        binding.tvUDistance.text = user.totalDistance
-        binding.tvUSpeed.text = user.averageSpeed
+
+        // Set time format h:m:s.ms
+        val time = user.totalTime.toInt()
+        binding.tvUTime.text = "${(time/1000/60/60)}:${time/1000/60}:${time/1000}.${time%1000}"
+
+        binding.tvUDistance.text = String.format("%.3f", user.totalDistance.toFloat())
+        binding.tvUSpeed.text = String.format("%.3f", user.averageSpeed.toFloat())
         binding.tvUScore.text = user.totalScore.toString()
         loadImage(user.profileImagePath, UserType.User)
     }
@@ -62,6 +71,9 @@ class BattleFragment : Fragment(){
     private fun loadImage(profileImage: String, userType: UserType) {
         if (profileImage.isEmpty())
             return
+
+        if(FirebaseAuth.getInstance().currentUser == null)
+            FirebaseAuth.getInstance().signInAnonymously()
 
         val storageReference = Firebase.storage.reference
 

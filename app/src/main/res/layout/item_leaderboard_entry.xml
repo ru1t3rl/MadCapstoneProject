@@ -45,12 +45,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="?attr/colorPrimaryVariant"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvPosition"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@null"
                 app:shapeAppearanceOverlay="@style/Theme.MadCapstoneProject.circleImageView"
+                app:tint="@null"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
