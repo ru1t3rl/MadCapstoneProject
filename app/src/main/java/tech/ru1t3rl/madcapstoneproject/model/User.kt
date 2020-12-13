@@ -2,6 +2,7 @@ package tech.ru1t3rl.madcapstoneproject.model
 
 import com.google.firebase.database.DataSnapshot
 import java.lang.Exception
+import java.lang.NullPointerException
 import kotlin.properties.Delegates
 
 class User(snapshot: DataSnapshot?) {
@@ -12,8 +13,8 @@ class User(snapshot: DataSnapshot?) {
     var totalDistance = "0.0"
     var runs: List<String>? = null
     var private: Boolean by Delegates.notNull()
-    lateinit var profileImagePath: String
-    lateinit var averageSpeed: String
+    var profileImagePath: String = ""
+    var averageSpeed: String = ""
 
     init {
         try {
@@ -27,7 +28,12 @@ class User(snapshot: DataSnapshot?) {
             averageSpeed = data["averageSpeed"] as String
             runs = data["runs"] as List<String>?
             private = data["private"] as Boolean
-            profileImagePath = data["profileImage"] as String
+
+            try {
+                profileImagePath = data["profileImage"] as String
+            } catch (e: NullPointerException) {
+                profileImagePath = ""
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

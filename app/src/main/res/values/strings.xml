@@ -7,6 +7,7 @@
 
     <!-- Main -->
     <string name="warning_enable_location">Please check if your location is enabled!</string>
+    <string name="profile_image_folder">profile_pictures</string>
 
     <!-- Database Entries -->
     <string name="db_user_username">username</string>
@@ -58,10 +59,11 @@
     <string name="first_name_hint">Username</string>
     <string name="first_private_eg">*A private account will not be visible on the leaderboard</string>
     <string name="first_start">Start</string>
-    <string name="first_creating_profile">Creating Profile...</string>
+    <string name="first_creating_profile">Creating Profile</string>
     <string name="first_profile_created">Profile Created</string>
     <string name="first_profile_failed">Failed to create profile</string>
     <string name="first_select_image">Select A Profile Picture</string>
+    <string name="fist_take_a_while">This shouldn\'t take a while.</string>
 
     <!-- Battle -->
     <string name="battle_time">%s Hours</string>

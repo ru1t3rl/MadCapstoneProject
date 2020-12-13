@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/Theme.MadCapstoneProject.circleImageView"
-        tools:srcCompat="@drawable/add_icon" />
+        app:srcCompat="@drawable/add_icon" />
 
     <EditText
         android:id="@+id/etUsername"

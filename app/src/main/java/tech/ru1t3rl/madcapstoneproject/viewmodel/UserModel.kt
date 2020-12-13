@@ -71,12 +71,13 @@ object UserModel : Observable(), UserDao {
 
         user.id = newUser.key.toString()
         newUser.child("username").setValue(user.username)
-        newUser.child("totalScore").setValue(0)
-        newUser.child("totalTime").setValue(0)
-        newUser.child("totalDistance").setValue("0.0")
-        newUser.child("runs").setValue(arrayListOf<String>())
+        newUser.child("totalScore").setValue(user.totalScore)
+        newUser.child("totalTime").setValue(user.totalTime)
+        newUser.child("totalDistance").setValue(user.totalDistance)
+        newUser.child("runs").setValue(user.runs)
         newUser.child("private").setValue(user.private)
-        newUser.child("averageSpeed").setValue("0.0")
+        newUser.child("averageSpeed").setValue(user.averageSpeed)
+        newUser.child("profileImage").setValue(user.profileImagePath)
 
         return user.id
     }
@@ -92,6 +93,7 @@ object UserModel : Observable(), UserDao {
         updatedUser.child("runs").setValue(user.runs)
         updatedUser.child("private").setValue(user.private)
         updatedUser.child("averageSpeed").setValue(user.averageSpeed)
+        updatedUser.child("profileImage").setValue(user.profileImagePath)
     }
 
     // Get all users from the database

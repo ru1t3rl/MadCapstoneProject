@@ -1,14 +1,17 @@
 package tech.ru1t3rl.madcapstoneproject.ui
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import tech.ru1t3rl.madcapstoneproject.R
 import tech.ru1t3rl.madcapstoneproject.databinding.FragmentProfileBinding
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 
@@ -41,5 +44,27 @@ class ProfileFragment : Fragment() {
                 UserModel.updateUser(user)
             }
         }
+
+        loadImage(user.profileImagePath)
+    }
+
+    private fun loadImage(profileImage: String) {
+        if (profileImage.isEmpty())
+            return
+
+        val storageReference = Firebase.storage.reference
+
+        storageReference.child("${getString(R.string.profile_image_folder)}/$profileImage").downloadUrl.addOnSuccessListener {
+
+        }.addOnFailureListener {
+            // Handle any errors
+        }
+
+        storageReference.child("${getString(R.string.profile_image_folder)}/$profileImage").getBytes(Long.MAX_VALUE)
+            .addOnSuccessListener {
+                binding.ivProfile.setImageBitmap(BitmapFactory.decodeByteArray(it, 0, it.size))
+            }.addOnFailureListener {
+                // Handle any errors
+            }
     }
 }

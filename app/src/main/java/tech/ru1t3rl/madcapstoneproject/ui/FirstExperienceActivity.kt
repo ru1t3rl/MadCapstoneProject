@@ -1,7 +1,7 @@
 package tech.ru1t3rl.madcapstoneproject.ui
 
 import android.app.Activity
-import android.app.ProgressDialog
+import android.app.AlertDialog
 import android.content.Context
 import tech.ru1t3rl.madcapstoneproject.model.User
 import tech.ru1t3rl.madcapstoneproject.R
@@ -12,11 +12,12 @@ import android.graphics.ImageDecoder.decodeBitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-
-
+import com.google.firebase.storage.ktx.storage
 import tech.ru1t3rl.madcapstoneproject.databinding.ActivityFirstExperienceBinding
 import tech.ru1t3rl.madcapstoneproject.viewmodel.UserModel
 import java.io.IOException
@@ -30,7 +31,7 @@ class FirstExperienceActivity : AppCompatActivity() {
 
     private val PICK_IMAGE_REQUEST = 71
     private var filePath: Uri? = null
-    private var storage = FirebaseStorage.getInstance()
+    private var storage = Firebase.storage
     private var imageRef: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +44,7 @@ class FirstExperienceActivity : AppCompatActivity() {
             ARG_USER_ID = mPrefs.getString(getString(R.string.user_id), "")!!
 
             if(UserModel.getUser(ARG_USER_ID) != null) {
-                // launchMainActivity()
+                launchMainActivity()
             }
         }
 
@@ -68,42 +69,43 @@ class FirstExperienceActivity : AppCompatActivity() {
         user.private = binding.sPrivate.isChecked
         user.username = binding.etUsername.text.toString()
 
+        uploadImage()
+        user.profileImagePath = imageRef!!
+
         val id = UserModel.addUser(user)
         ARG_USER_ID = id
 
         val mEditor: SharedPreferences.Editor = mPrefs.edit()
         mEditor.putString(getString(R.string.user_id), id).apply()
-
-        uploadImage()
-        user.profileImagePath = imageRef!!
     }
 
     private fun uploadImage() {
         if (filePath == null)
             return
 
-        val progressDialog = ProgressDialog(applicationContext)
+        val progressDialog = AlertDialog.Builder(this)
         progressDialog.setTitle(getString(R.string.first_creating_profile))
-        progressDialog.show()
+        progressDialog.setMessage(getString(R.string.fist_take_a_while))
+        progressDialog.create().show()
+
 
         // Give the image a random and set it's firebase reference
         imageRef = UUID.randomUUID().toString() + ".bmp"
-        val ref = storage.reference.child("profile_pictures/$imageRef")
+
+        val ref = storage.reference.child("${getString(R.string.profile_image_folder)}/$imageRef")
 
         // Upload the image to firebase
         ref.putFile(filePath!!)
             .addOnSuccessListener {
-                progressDialog.dismiss()
-                Snackbar.make(binding.root, R.string.first_profile_created, Snackbar.LENGTH_INDEFINITE).show()
+                Snackbar.make(binding.root.rootView, R.string.first_profile_created, Snackbar.LENGTH_INDEFINITE).show()
             }
             .addOnFailureListener { e ->
-                progressDialog.dismiss()
-                Snackbar.make(binding.root, "${R.string.first_profile_failed} ${e.message}", Snackbar.LENGTH_INDEFINITE).show()
+                Snackbar.make(binding.root.rootView, "${R.string.first_profile_failed} ${e.message}", Snackbar.LENGTH_INDEFINITE).show()
             }
             .addOnProgressListener { taskSnapshot ->
                 val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot
                     .totalByteCount
-                progressDialog.setMessage("${R.string.first_profile_created} ${progress.toInt()}%")
+                progressDialog.setMessage("${R.string.first_creating_profile} ${progress.toInt()}%")
             }
     }
 
