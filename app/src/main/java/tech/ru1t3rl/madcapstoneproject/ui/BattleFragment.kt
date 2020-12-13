@@ -47,7 +47,7 @@ class BattleFragment : Fragment(){
 
         // Set time format h:m:s.ms
         val time = friend.totalTime.toInt()
-        binding.tvFTime.text = "${(time/1000/60/60)}:${time/1000/60}:${time/1000}.${time%1000}"
+        binding.tvFTime.text = "${(time/1000/60/60)}:${time/1000/60}:${time/1000%60}.${time%1000}"
 
         binding.tvFDistance.text = String.format("%.3f", friend.totalDistance.toFloat())
         binding.tvFSpeed.text = String.format("%.3f", friend.averageSpeed.toFloat())
@@ -60,7 +60,7 @@ class BattleFragment : Fragment(){
 
         // Set time format h:m:s.ms
         val time = user.totalTime.toInt()
-        binding.tvUTime.text = "${(time/1000/60/60)}:${time/1000/60}:${time/1000}.${time%1000}"
+        binding.tvUTime.text = "${(time/1000/60/60)}:${time/1000/60}:${time/1000%60}.${time%1000}"
 
         binding.tvUDistance.text = String.format("%.3f", user.totalDistance.toFloat())
         binding.tvUSpeed.text = String.format("%.3f", user.averageSpeed.toFloat())
