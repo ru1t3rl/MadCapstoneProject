@@ -12,6 +12,7 @@ class User(snapshot: DataSnapshot?) {
     var totalDistance = "0.0"
     var runs: List<String>? = null
     var private: Boolean by Delegates.notNull()
+    lateinit var profileImagePath: String
     lateinit var averageSpeed: String
 
     init {
@@ -26,6 +27,7 @@ class User(snapshot: DataSnapshot?) {
             averageSpeed = data["averageSpeed"] as String
             runs = data["runs"] as List<String>?
             private = data["private"] as Boolean
+            profileImagePath = data["profileImage"] as String
         } catch (e: Exception) {
             e.printStackTrace()
         }
